@@ -1,3 +1,8 @@
+jQuery.noConflict();
+
+var example = 'heatmap-canvas', 
+theme = 'default';
+(function($){ // encapsulate jQuery
 $(function () {
 
     /**
@@ -160,4 +165,5 @@ $(function () {
     });
     console.log('Rendered in ' + (new Date() - start) + ' ms'); // eslint-disable-line no-console
 
+});
 });
