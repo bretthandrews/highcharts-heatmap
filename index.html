@@ -16,18 +16,27 @@
   <style type="text/css">
 .container{width:100%}#hs-component{background-color:inherit;padding:0}#hs-component .container{padding:0;width:100%}#comp-menu{background-color:#3A3A4F;z-index:1;padding:0}#comp-menu .cont{padding:0 50px}#comp-menu h2,#comp-menu h2 a{color:#eee;font-weight:400;text-transform:inherit}#comp-menu h2 a:hover{color:#8085e8}a.btn.btn-theme{color:#eeeaea;background-color:#565669;border:1px solid #34343e;border-bottom:0;border-radius:0;font-weight:700;font-size:13px;margin:0 2px 0 0;letter-spacing:.5px;line-height:36px;padding:0 15px;transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-ms-transition:all .2s ease-in-out}a.btn.btn-theme:hover{background-color:#6A6A7E;color:#90ef7f}a.btn.btn-theme.disabled{background-color:#eee;color:#313131;opacity:1}.demo{background-color:#eee;padding:40px 50px}.demo .demo-name{color:#47475C;font-weight:400;text-transform:none;text-align:center;display:inline;margin:0 10px}#chart-switcher{text-align:center;padding:30px 0}.demo #chart-switcher #next-example,.demo #chart-switcher #previous-example{font-size:30px;padding:0 10px;color:#888}#demo-buttons{text-align:center;padding:20px 0}#demo-buttons a{background-color:#ddd}#demo-buttons a:hover{background-color:#8085E8;color:#eee}.demo .chart-container{position:relative;padding:0}.demo .chart-container>#container{box-shadow:0 3px 4px #ddd}.demo .chart-container #previous-example{position:absolute;top:40%;left:-35px;font-size:55px}.demo .chart-container #next-example{position:absolute;top:40%;right:-35px;font-size:55px}.demo .chart-container #next-example,.demo .chart-container #previous-example{color:#999;cursor:pointer}.demo .chart-container #next-example:hover,.demo .chart-container #previous-example:hover{color:#58BB45}.sidebar-eq-fill{background-color:#eee}#small-switcher{margin:0 -15px;padding:10px;background-color:#3A3A4F;height:45px}@media screen and (max-width:400px){#chart-switcher,.demo .chart-container,.sidebar-wrapper .sidebar-eq{padding:0}#small-switcher{text-align:center}.demo #chart-switcher #next-example,.demo #chart-switcher #previous-example{font-size:20px}.sidebar-wrapper .sidebar-eq.demo{padding-top:0}#sidebar-close,#view-menu{position:absolute;top:0;left:0;background-color:#3A3A4F;color:#fff;border-radius:0;z-index:100;cursor:pointer;padding:0 10px;line-height:45px}#sidebar-close{display:none}#view-menu,.toggled #sidebar-close{display:block}.toggled #view-menu{display:none}}@media screen and (min-width:400px) and (max-width:768px){.demo{padding:15px}.sidebar-wrapper .sidebar-eq.demo{padding-top:0}#sidebar-close,#view-menu{position:absolute;top:0;left:0;background-color:#3A3A4F;color:#fff;border-radius:0;z-index:100;cursor:pointer;padding:10px}#sidebar-close{display:none}#view-menu,.toggled #sidebar-close{display:block}.toggled #view-menu{display:none}}
   </style> -->
+
+  
+ <!--
   <script src="/joomla/media/com_demo/js/highslide-full.min.js" type="text/javascript"></script>
-  <script src="/joomla/media/com_demo/js/highslide.config.min.js" type="text/javascript"></script>
+  <script src="/joomla/media/com_demo/js/highslide.config.min.js" type="text/javascript"></script> -->
   <script src="/lib/jquery-1.7.2.js" type="text/javascript"></script>
   <script src="/joomla/media/templates/highsoft_2015/js/bootstrap.js" type="text/javascript"></script>
   <script src="/joomla/media/templates/highsoft_2015/js/modernizr.js" type="text/javascript"></script>
   <script src="/joomla/media/templates/highsoft_2015/js/script.js" type="text/javascript"></script>
   <script src="/joomla/media/templates/highsoft_2015/js/jquery.appear.min.js" type="text/javascript"></script>
+
+  <pre id="csv" style="display: none"> <script>var dd =
+  $.csv.toObjects("resources/data/highcharts.csv");</script> </pre>
+
   <script type="text/javascript">
 jQuery.noConflict();
 
 var example = 'heatmap-canvas', 
 theme = 'default';
+
+
 
 (function($){ // encapsulate jQuery
 	$(function () {
@@ -106,6 +115,7 @@ theme = 'default';
     $('#container').highcharts({
 
         data: {
+            //csv: $.csv.toObjects("resources/data/highcharts.csv"),
             csv: document.getElementById('csv').innerHTML,
             parsed: function () {
                 start = +new Date();
@@ -191,6 +201,7 @@ theme = 'default';
 
     });
     console.log('Rendered in ' + (new Date() - start) + ' ms'); // eslint-disable-line no-console
+    console.log(data);
 
 });
 })(jQuery);
