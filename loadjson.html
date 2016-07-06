@@ -14,12 +14,12 @@
 <script type="text/javascript">
     $(function () {
             var processed_json = new Array();   
-            $.getJSON('http://www.knowstack.com/webtech/charts_demo/data.json', function(data) {
+            $.getJSON('https://raw.githubusercontent.com/bretthandrews/highcharts-heatmap/master/resources/data/data.json', function(data) {
                 // Populate series
                 for (i = 0; i < data.length; i++){
                     processed_json.push([data[i].key, data[i].value]);
                 }
-             
+                             
                 // draw chart
                 $('#container').highcharts({
                 chart: {
