@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="http://www.highcharts.com/demo/heatmap-canvas" />
+    <script src="/joomla/media/com_demo/js/highslide-full.min.js" type="text/javascript"></script>
+    <script src="/joomla/media/com_demo/js/highslide.config.min.js" type="text/javascript"></script>
+    <script src="/lib/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="/joomla/media/templates/highsoft_2015/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/joomla/media/templates/highsoft_2015/js/modernizr.js" type="text/javascript"></script>
+    <script src="/joomla/media/templates/highsoft_2015/js/script.js" type="text/javascript"></script>
+    <script src="/joomla/media/templates/highsoft_2015/js/jquery.appear.min.js" type="text/javascript"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+    <title>galaxy</title>
+
+    <script type="text/javascript">
+      $(function () {
+        var myjson = Array();
+        $.getJSON('https://api.sdss.org/marvin2/api/maps/8485-1901/map/category=EMLINE_GFLUX/channel=Ha-6564/', function(data) {
+          var values = data['data']['value'];
+          for (i = 0; i < values.length; i++){
+            for (j = 0; j < values[i].length; j++){
+               myjson.push([i, j, values[i][j]]); 
+            }
+          }
+          var min = Math.min(null, myjson);
+          var max = Math.max(myjson, isNaN(myjson) ? -Infinity : myjson);
+          console.log(max);
+          $('#heatmap').highcharts({
+            chart: {type: 'heatmap',
+              marginTop: 40,
+              marginBottom: 80,
+              plotBorderWidth: 1},
+            title: {text: '8485-1901 Halpha'},
+            xAxis: {title: {text: 'Delta RA'}, allowDecimals: false, minorGridLineWidth: 0},
+            yAxis: {title: {text: 'Delta DEC'}, allowDecimals: false},
+            colorAxis: {min: 0, max: 30,
+              minColor: '#FFFFFF',
+              maxColor: '#000080',
+              reversed: false,
+              labels: {align: 'right'}},
+            legend: {align: 'right',
+              layout: 'vertical',
+              margin: 0,
+              verticalAlign: 'bottom',
+              y: -53,
+              symbolHeight: 380,
+              title: {text: 'Flux'}},
+            tooltip: {
+              formatter: function () {
+                return '<br>('+ this.point.x + ', ' + this.point.y + '): <b>' + this.point.value + '</b> Halphas <br>';
+              }},
+            plotOptions:  {series: {events: {
+                  click: function (event) {
+                    console.log(event.point.x);
+                    $(function () {
+                        var spec = Array();
+                        $.getJSON('https://api.sdss.org/marvin2/api/cubes/8485-1901/spectra/x=' + (event.point.x - 17) + '/y=' + (event.point.y - 17) + '/', function(data) {
+                            spec = data['data'];
+                            $('#spectrum').highcharts({
+                                chart: {zoomType: 'xy'},
+                                title: {text: 'Spectrum'},
+                                subtitle: {text: document.ontouchstart === undefined ?
+                                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'},
+                                xAxis: {title: {text: 'Wavelength channel'}},
+                                yAxis: {title: {text: 'Flux'}, min: -0.5, max: 6},
+                                legend: {enabled: false},
+                                tooltip: {enabled: false},
+                                series: [{
+                                    type: 'line',
+                                    states: {hover: {enabled: false}},
+                                    lineWidth: 2,
+                                    marker: {radius: 2},
+                                    name: 'Flux',
+                                    data: spec
+                                }]
+                            });
+                        });
+                    });
+                }}}},
+            series: [{
+              name: 'Halphas',
+              borderWidth: 0,
+              data: myjson,
+              dataLabels: {enabled: false}
+            }]
+          });
+        });        
+      });
+    </script>
+
+<!--
+<script type="text/javascript">
+    $(function () {
+        var spec = Array();
+        $.getJSON('https://api.sdss.org/marvin2/api/cubes/8485-1901/spectra/x=0/y=0/', function(data) {
+            spec = data['data'];
+            $('#spectrum').highcharts({
+                chart: {zoomType: 'xy'},
+                title: {text: 'Spectrum'},
+                subtitle: {text: document.ontouchstart === undefined ?
+                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'},
+                xAxis: {title: {text: 'Wavelength channel'}},
+                yAxis: {title: {text: 'Flux'}, min: -0.5, max: 6},
+                legend: {enabled: false},
+                tooltip: {enabled: false},
+                series: [{
+                    type: 'line',
+                    states: {hover: {enabled: false}},
+                    lineWidth: 2,
+                    marker: {radius: 2},
+                    name: 'Flux',
+                    data: spec
+                }]
+            });
+        });
+    });
+</script>
+-->
+<div id="heatmap" style="height: 500px; min-width: 310px; max-width: 500px; margin: 0 auto"></div>
+<div id="spectrum" style="height: 300px; min-width: 310px; max-width: 1200px; margin: 0 auto"></div>
+
+
+	</body>
+</html>

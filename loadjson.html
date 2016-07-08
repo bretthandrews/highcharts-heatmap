@@ -13,15 +13,12 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
     $(function () {
-            var processed_json = new Array();   
-            $.getJSON('https://raw.githubusercontent.com/bretthandrews/highcharts-heatmap/master/resources/data/data.json', function(data) {
-                // Populate series
-                for (i = 0; i < data.length; i++){
-                    processed_json.push([data[i].key, data[i].value]);
-                }
-                             
-                // draw chart
-                $('#container').highcharts({
+        var processed_json = new Array();   
+        $.getJSON('https://raw.githubusercontent.com/bretthandrews/highcharts-heatmap/master/resources/data/data.json', function(data) {
+            for (i = 0; i < data.length; i++){
+                processed_json.push([data[i].key, data[i].value]);
+            }             
+            $('#container').highcharts({
                 chart: {
                     type: "column"
                 },
