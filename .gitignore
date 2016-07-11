@@ -1,0 +1,13 @@
+*~
+.DS_Store
+*.pyc
+*.pck
+*.eps
+*.ps
+*.png
+*.jpg
+*.pdf
+*.aux
+*.blg
+*.log
+*.synctex.gz
