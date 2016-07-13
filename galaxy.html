@@ -22,7 +22,7 @@
           var values = data['data']['value'];
           for (i = 0; i < values.length; i++){
             for (j = 0; j < values[i].length; j++){
-               myjson.push([i, j, values[i][j]]); 
+               myjson.push([i, j, values[i][j]]);
             }
           }
           var min = Math.min(null, myjson);
@@ -32,12 +32,16 @@
             chart: {type: 'heatmap',
               marginTop: 40,
               marginBottom: 80,
-              plotBorderWidth: 1},
+              plotBorderWidth: 1,
+              panning: true,
+              panKey: 'shift',
+              zoomType: 'xy'},
+              plotBackgroundImage: 'http://localhost/sas/mangawork/manga/spectro/redux/v1_5_1/8485/stack/images/1901.png'},
             title: {text: '8485-1901 Halpha'},
             xAxis: {title: {text: 'Delta RA'}, allowDecimals: false, minorGridLineWidth: 0},
             yAxis: {title: {text: 'Delta DEC'}, allowDecimals: false},
             colorAxis: {min: 0, max: 30,
-              minColor: '#FFFFFF',
+              minColor: 'rgba(255,255,255,0)',
               maxColor: '#000080',
               reversed: false,
               labels: {align: 'right'}},
@@ -87,7 +91,7 @@
               dataLabels: {enabled: false}
             }]
           });
-        });        
+        });
       });
     </script>
 
