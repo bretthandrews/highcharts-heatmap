@@ -18,13 +18,15 @@
     <script type="text/javascript">
       $(function () {
         var myjson = Array();
-        $.getJSON('https://api.sdss.org/marvin2/api/maps/8485-1901/map/category=EMLINE_GFLUX/channel=Ha-6564/', function(data) {
+        // $.getJSON('https://api.sdss.org/marvin2/api/maps/8485-1901/map/category=EMLINE_GFLUX/channel=Ha-6564/', function(data) {
+        $.getJSON('https://github.com/bretthandrews/highcharts-heatmap/blob/master/resources/data/fake_map.json', function(data) {    
           var values = data['data']['value'];
           for (i = 0; i < values.length; i++){
             for (j = 0; j < values[i].length; j++){
                myjson.push([i, j, values[i][j]]);
             }
           }
+          console.log(myjson[500]);
           var min = Math.min(null, myjson);
           var max = Math.max(myjson, isNaN(myjson) ? -Infinity : myjson);
           console.log(max);
@@ -35,8 +37,8 @@
               plotBorderWidth: 1,
               panning: true,
               panKey: 'shift',
-              zoomType: 'xy'},
-              plotBackgroundImage: 'http://localhost/sas/mangawork/manga/spectro/redux/v1_5_1/8485/stack/images/1901.png'},
+              zoomType: 'xy',
+          },
             title: {text: '8485-1901 Halpha'},
             xAxis: {title: {text: 'Delta RA'}, allowDecimals: false, minorGridLineWidth: 0},
             yAxis: {title: {text: 'Delta DEC'}, allowDecimals: false},
@@ -61,7 +63,8 @@
                     console.log(event.point.x);
                     $(function () {
                         var spec = Array();
-                        $.getJSON('https://api.sdss.org/marvin2/api/cubes/8485-1901/spectra/x=' + (event.point.x - 17) + '/y=' + (event.point.y - 17) + '/', function(data) {
+                        // $.getJSON('https://api.sdss.org/marvin2/api/cubes/8485-1901/spectra/x=' + (event.point.x - 17) + '/y=' + (event.point.y - 17) + '/', function(data) {
+                        $.getJSON('https://github.com/bretthandrews/highcharts-heatmap/blob/master/resources/data/fake_spec.json', function(data) {
                             spec = data['data'];
                             $('#spectrum').highcharts({
                                 chart: {zoomType: 'xy'},
@@ -84,46 +87,32 @@
                         });
                     });
                 }}}},
-            series: [{
-              name: 'Halphas',
+            series: [/*{
+              type: "heatmap",
+              name: "Halphas",
               borderWidth: 0,
               data: myjson,
               dataLabels: {enabled: false}
+          }, */{
+                type: "heatmap",
+                name: "Halphas",
+                borderWidth: 0,
+                data: myjson,
+                dataLabels: {enabled: false},
+                zIndex: 10
             }]
-          });
+        }, function (chart) { // on complete
+
+        //chart.renderer.image('https://data.sdss.org/sas/mangawork/manga/spectro/redux/v1_5_1/8485/stack/images/1901.png', 30, 30, 200, 200)
+        //    .add();
+
+    });
         });
       });
     </script>
 
-<!--
-<script type="text/javascript">
-    $(function () {
-        var spec = Array();
-        $.getJSON('https://api.sdss.org/marvin2/api/cubes/8485-1901/spectra/x=0/y=0/', function(data) {
-            spec = data['data'];
-            $('#spectrum').highcharts({
-                chart: {zoomType: 'xy'},
-                title: {text: 'Spectrum'},
-                subtitle: {text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'},
-                xAxis: {title: {text: 'Wavelength channel'}},
-                yAxis: {title: {text: 'Flux'}, min: -0.5, max: 6},
-                legend: {enabled: false},
-                tooltip: {enabled: false},
-                series: [{
-                    type: 'line',
-                    states: {hover: {enabled: false}},
-                    lineWidth: 2,
-                    marker: {radius: 2},
-                    name: 'Flux',
-                    data: spec
-                }]
-            });
-        });
-    });
-</script>
--->
 <div id="heatmap" style="height: 500px; min-width: 310px; max-width: 500px; margin: 0 auto"></div>
+<div id="heatmap2" style="height: 500px; min-width: 310px; max-width: 500px; margin: 0 auto"></div>
 <div id="spectrum" style="height: 300px; min-width: 310px; max-width: 1200px; margin: 0 auto"></div>
 
 
