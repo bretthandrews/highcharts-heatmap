@@ -19,14 +19,14 @@
       $(function () {
         var myjson = Array();
         // $.getJSON('https://api.sdss.org/marvin2/api/maps/8485-1901/map/category=EMLINE_GFLUX/channel=Ha-6564/', function(data) {
-        $.getJSON('https://github.com/bretthandrews/highcharts-heatmap/blob/master/resources/data/fake_map.json', function(data) {    
+        $.getJSON('https://raw.githubusercontent.com/bretthandrews/highcharts-heatmap/master/resources/data/fake_map.json', function(data) {    
           var values = data['data']['value'];
           for (i = 0; i < values.length; i++){
             for (j = 0; j < values[i].length; j++){
                myjson.push([i, j, values[i][j]]);
             }
           }
-          console.log(myjson[500]);
+          console.log(myjson);
           var min = Math.min(null, myjson);
           var max = Math.max(myjson, isNaN(myjson) ? -Infinity : myjson);
           console.log(max);
@@ -64,7 +64,7 @@
                     $(function () {
                         var spec = Array();
                         // $.getJSON('https://api.sdss.org/marvin2/api/cubes/8485-1901/spectra/x=' + (event.point.x - 17) + '/y=' + (event.point.y - 17) + '/', function(data) {
-                        $.getJSON('https://github.com/bretthandrews/highcharts-heatmap/blob/master/resources/data/fake_spec.json', function(data) {
+                        $.getJSON('https://raw.githubusercontent.com/bretthandrews/highcharts-heatmap/master/resources/data/fake_spec.json', function(data) {
                             spec = data['data'];
                             $('#spectrum').highcharts({
                                 chart: {zoomType: 'xy'},
